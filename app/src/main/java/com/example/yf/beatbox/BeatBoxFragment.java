@@ -14,6 +14,9 @@ import android.widget.Button;
  */
 public class BeatBoxFragment extends Fragment {
 
+    private BeatBox mBeatBox;
+
+
     public static BeatBoxFragment newInstance(){
         return new BeatBoxFragment();
     }
@@ -68,5 +71,14 @@ public class BeatBoxFragment extends Fragment {
         }
     }
 
+    /*
+    * 创建BeatBox实例
+    * */
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBeatBox = new BeatBox(getActivity());
+    }
 }
