@@ -2,6 +2,8 @@ package com.example.yf.beatbox;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 
 import java.io.IOException;
@@ -17,12 +19,19 @@ public class BeatBox {
 
     private static final String SOUNDS_FOLDER = "sample_sound";
 
+    //最多同时播放5哥音频
+    private static final int MAX_SOUNDS = 5;
+
     private List<Sound> mSounds = new ArrayList<>();
 
+    private SoundPool mSoundPool;
 
     private AssetManager mAssets;
     public BeatBox(Context context){
         mAssets = context.getAssets();
+
+        mSoundPool = new SoundPool(MAX_SOUNDS , AudioManager.STREAM_MUSIC , 0);
+
         loadSounds();
     }
 
