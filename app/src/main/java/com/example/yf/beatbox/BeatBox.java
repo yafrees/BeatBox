@@ -21,7 +21,7 @@ public class BeatBox {
     private static final String SOUNDS_FOLDER = "sample_sound";
 
     //最多同时播放5哥音频
-    private static final int MAX_SOUNDS = 5;
+    private static final int MAX_SOUNDS = 8;
 
     private List<Sound> mSounds = new ArrayList<>();
 
@@ -34,6 +34,24 @@ public class BeatBox {
         mSoundPool = new SoundPool(MAX_SOUNDS , AudioManager.STREAM_MUSIC , 0);
 
         loadSounds();
+    }
+
+    /*
+    * 播放音频
+    * */
+    public void play(Sound sound){
+        Integer soundId = sound.getSoundId();
+        if (sound == null){
+            return;
+        }
+        mSoundPool.play(soundId , 1.0f , 1.0f , 1 , 0 , 1.0f);
+    }
+
+    /*
+    * 释放soundpool
+    * */
+    public void relase(){
+        mSoundPool.release();
     }
 
     //查看asssets资源

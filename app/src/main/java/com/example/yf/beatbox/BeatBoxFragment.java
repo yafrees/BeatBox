@@ -18,18 +18,31 @@ public class BeatBoxFragment extends Fragment {
 
     private BeatBox mBeatBox;
 
-
-    public static BeatBoxFragment newInstance(){
+    public static BeatBoxFragment newInstance() {
         return new BeatBoxFragment();
     }
+
+
+    /*
+    * 创建BeatBox实例
+    * */
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
+        mBeatBox = new BeatBox(getActivity());
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_beat_box , container , false);
+        View view = inflater.inflate(R.layout.fragment_beat_box, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_beat_box_recycle_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity() , 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 8));
 
         //使用SoundAdapter
 //        recyclerView.setAdapter(new SoundAdapter());
@@ -39,42 +52,61 @@ public class BeatBoxFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBeatBox.relase();
+    }
+
     /*
-    * 创建SoundHolder
-    * */
-    private class SoundHolder extends RecyclerView.ViewHolder{
+        * 创建SoundHolder
+        * */
+    private class SoundHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Button mButton;
         private Sound mSound;
 
-        public SoundHolder(LayoutInflater layoutInflater , ViewGroup container) {
-            super(layoutInflater.inflate(R.layout.list_item_sound , container ,false));
+        public SoundHolder(LayoutInflater layoutInflater, ViewGroup container) {
+            super(layoutInflater.inflate(R.layout.list_item_sound, container, false));
 
             mButton = (Button) itemView.findViewById(R.id.list_item_sound_button);
+
+            mButton.setOnClickListener(this);
         }
 
         //绑定sound
-        public void bindSound(Sound sound){
+        public void bindSound(Sound sound) {
             mSound = sound;
             mButton.setText(mSound.getName());
         }
+
+        /*
+* 监听事件--点击播放音乐
+* */
+        @Override
+        public void onClick(View v) {
+            mBeatBox.play(mSound);
+
+        }
+
     }
+
 
     /*
     * 创建SoundAdapter
     * */
-    private class SoundAdapter extends  RecyclerView.Adapter<SoundHolder>{
+    private class SoundAdapter extends RecyclerView.Adapter<SoundHolder> {
 
         private List<Sound> mSounds;
 
-        public SoundAdapter(List<Sound> sounds){
+        public SoundAdapter(List<Sound> sounds) {
             mSounds = sounds;
         }
 
         @Override
         public SoundHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new SoundHolder(inflater , parent);
+            return new SoundHolder(inflater, parent);
         }
 
         @Override
@@ -90,14 +122,5 @@ public class BeatBoxFragment extends Fragment {
         }
     }
 
-    /*
-    * 创建BeatBox实例
-    * */
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mBeatBox = new BeatBox(getActivity());
-    }
 }
