@@ -8,9 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!---->
+    <!--样式-->
     <style name="BeatBoxButton">
         <item name="android:background">@color/dark_blue</item>
     </style>
+
+    <!--样式的继承 粗体文字样式-->
+    <style name="BeatBoxButton.Strong">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 
 </resources>
